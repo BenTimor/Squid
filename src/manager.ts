@@ -6,7 +6,7 @@ export const storeManager: { [key: string]: (() => void)[] } = {
 
 export function store(storeClass: any, onLoad?: (key: string, defaultValue: string) => any, onSet?: (key: string, value: string) => void) {
     Object.keys(storeClass).forEach((k) => {
-        let value = onLoad?.(k, storeClass[k]) || storeClass[k];
+        let value = onLoad?.(k, storeClass[k]) ?? storeClass[k];
 
         Object.defineProperty(storeClass, k, {
             get: () => {
