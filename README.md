@@ -64,7 +64,7 @@ That's why Squid's `store` function has events that makes it all easier. They al
 Lets say we want to save every key of our store into the localStorage and load it every time the app is opened on the browser (Like a state which's saved also when refreshing the page). It's going to look something like this:
 
 	function onLoad(key: string, _defaultValue: any /* This is the value we put directly into the field when created the store */) {
-	    return localStorage.getItem(key); // The value we're returning is going into the field if it's undefined, We're gonna use the defaultValue automatically
+	    return localStorage.getItem(key) || undefined; // The value we're returning is going into the field. if it's undefined, We're gonna use the defaultValue automatically
 	}
 
 	function onSet(key: string, value: any) {

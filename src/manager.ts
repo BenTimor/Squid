@@ -6,7 +6,15 @@ export const storeManager: { [key: string]: (() => void)[] } = {
 
 export function store(storeClass: any, onLoad?: (key: string, defaultValue: string) => any, onSet?: (key: string, value: string) => void) {
     Object.keys(storeClass).forEach((k) => {
-        let value = onLoad?.(k, storeClass[k]) ?? storeClass[k];
+        let value = storeClass[k];
+
+        if (onLoad) {
+            const onLoadValue = onLoad(k, value);
+
+            if (typeof onLoadValue !== "undefined") {
+                value = onLoadValue;
+            }
+        }
 
         Object.defineProperty(storeClass, k, {
             get: () => {
@@ -18,7 +26,7 @@ export function store(storeClass: any, onLoad?: (key: string, defaultValue: stri
                 storeManager.default.forEach((cb) => cb());
                 storeManager[getKeyId(storeClass, k)].forEach((cb) => cb());
 
-                onSet?.(k, v);
+                onSet && onSet(k, v);
             },
         });
 
